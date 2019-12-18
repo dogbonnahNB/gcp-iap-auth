@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"strings"
 
 	"github.com/imkira/gcp-iap-auth/jwt"
 )
@@ -41,7 +42,7 @@ func (p *proxy) handler(res http.ResponseWriter, req *http.Request) {
 	}
 
 	if p.emailHeader != "" {
-		req.Header.Set(p.emailHeader, claims.Email)
+		req.Header.Set(p.emailHeader, strings.Split(claims.Email,"@")[0])
 	}
 	p.proxy.ServeHTTP(res, req)
 }
